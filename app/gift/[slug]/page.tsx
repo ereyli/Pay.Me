@@ -19,6 +19,7 @@ import { arcTestnet, getStablecoinByAddress } from "@/lib/chain";
 import { GIFT_DISTRIBUTOR_ABI, getGiftDistributorAddress } from "@/lib/gift-distributor";
 import { formatUSDC, parseUSDC, shortenAddress } from "@/lib/token";
 import { StablecoinMark } from "@/components/brand/stablecoin-mark";
+import { GiftLogo } from "@/components/brand/gift-logo";
 import { UsdcCoin } from "@/components/brand/usdc-coin";
 import { AmountDisplay } from "@/components/payments/amount-display";
 import { PayLinkQr } from "@/components/payments/pay-link-qr";
@@ -191,13 +192,13 @@ export default function GiftClaimPage() {
       <div className="w-full max-w-md">
         {!showSuccess ? (
           <div className="bg-card rounded-3xl p-8 shadow-lg space-y-6">
-            <div className="text-center">
-              <div className="flex justify-center mb-3">
-                <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center">
-                  <Gift className="w-8 h-8 text-primary" />
+            <div className="text-center space-y-2">
+              <div className="flex justify-center">
+                <div className="rounded-3xl bg-gradient-to-b from-primary/8 to-transparent px-6 py-5 ring-1 ring-primary/10">
+                  <GiftLogo heightPx={72} className="drop-shadow-md" priority />
                 </div>
               </div>
-              <div className="text-sm text-muted-foreground">pay.me gift</div>
+              <div className="text-sm font-medium text-muted-foreground">Gift on Pay.Me</div>
             </div>
 
             {row.title && (
@@ -324,8 +325,11 @@ export default function GiftClaimPage() {
           </div>
         ) : (
           <div className="bg-card rounded-3xl p-8 shadow-lg text-center space-y-6">
-            <div className="w-24 h-24 bg-[#10B981] rounded-full flex items-center justify-center mx-auto">
-              <Check className="w-12 h-12 text-white" />
+            <div className="flex flex-col items-center gap-4">
+              <GiftLogo heightPx={64} className="drop-shadow-md" />
+              <div className="w-20 h-20 bg-[#10B981] rounded-full flex items-center justify-center shadow-lg shadow-emerald-500/25">
+                <Check className="w-10 h-10 text-white" />
+              </div>
             </div>
             <div>
               <h2 className="text-2xl font-bold mb-2">You&apos;re set!</h2>

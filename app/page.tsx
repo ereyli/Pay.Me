@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowRight, Link2, Shield, Zap } from "lucide-react";
 import { EurcCoin, UsdcCoin } from "@/components/brand/usdc-coin";
+import { PayMeLogo } from "@/components/brand/payme-logo";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { LandingStats } from "@/components/landing/landing-stats";
 
@@ -10,11 +11,8 @@ export default function LandingPage() {
       {/* Header */}
       <header className="px-6 py-4 flex items-center justify-between max-w-6xl mx-auto w-full">
         <div className="flex items-center gap-2">
-          <span className="flex items-center -space-x-2">
-            <UsdcCoin size={32} priority className="ring-2 ring-background" />
-            <EurcCoin size={32} priority className="ring-2 ring-background z-[1]" />
-          </span>
-          <span className="text-xl font-semibold">pay.me</span>
+          <PayMeLogo heightPx={36} priority className="drop-shadow-sm" />
+          <span className="text-xl font-semibold">Pay.Me</span>
         </div>
         <div className="flex items-center gap-3">
           <ThemeToggle />
@@ -30,9 +28,8 @@ export default function LandingPage() {
       {/* Hero + features (narrow); stats full width below */}
       <main className="flex-1 flex flex-col items-center px-6 py-16 w-full">
         <div className="flex flex-col items-center text-center max-w-2xl mx-auto w-full">
-          <div className="mx-auto mb-6 flex items-center justify-center gap-1">
-            <UsdcCoin size={80} priority className="shadow-lg" />
-            <EurcCoin size={80} priority className="shadow-lg -ml-3" />
+          <div className="mx-auto mb-6 flex items-center justify-center">
+            <PayMeLogo heightPx={112} priority className="drop-shadow-lg" />
           </div>
 
           <h1 className="text-4xl md:text-5xl font-bold mb-4 leading-tight">

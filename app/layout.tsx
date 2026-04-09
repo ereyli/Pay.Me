@@ -2,14 +2,20 @@ import type { Metadata } from "next";
 import { Providers } from "@/components/providers";
 import "./globals.css";
 
+const siteUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+
 export const metadata: Metadata = {
-  title: "pay.me — Create a payment link. Get paid in USDC.",
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: "Pay.Me",
+    template: "%s · Pay.Me",
+  },
   description:
     "The simplest way to request USDC payments on Arc. Create a link, share it, get paid instantly.",
   openGraph: {
-    title: "pay.me",
+    title: "Pay.Me",
     description: "Create a payment link. Get paid in USDC.",
-    siteName: "pay.me",
+    siteName: "Pay.Me",
   },
 };
 

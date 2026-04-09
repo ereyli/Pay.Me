@@ -23,6 +23,7 @@ import { paymentRefFromRequestId } from "@/lib/payment-ref";
 import { formatUSDC, grossAmountForRecipientNet, parseUSDC, shortenAddress } from "@/lib/token";
 import type { PaymentRequest } from "@/types/database";
 import { AmountDisplay } from "@/components/payments/amount-display";
+import { PayMeLogo } from "@/components/brand/payme-logo";
 import { UsdcCoin } from "@/components/brand/usdc-coin";
 import { StablecoinMark } from "@/components/brand/stablecoin-mark";
 
@@ -197,11 +198,13 @@ export default function PayPage() {
         {!isPaid ? (
           <div className="bg-card rounded-3xl p-8 shadow-lg space-y-6">
             {/* Brand */}
-            <div className="text-center">
-              <div className="flex justify-center mb-3">
-                <UsdcCoin size={48} />
+            <div className="text-center space-y-2">
+              <div className="flex justify-center">
+                <div className="rounded-3xl bg-gradient-to-b from-primary/8 to-transparent px-6 py-5 ring-1 ring-primary/10">
+                  <PayMeLogo heightPx={72} className="drop-shadow-md" priority />
+                </div>
               </div>
-              <div className="text-sm text-muted-foreground">pay.me</div>
+              <div className="text-sm font-medium text-muted-foreground">Payment · Pay.Me</div>
             </div>
 
             {/* Status banners */}
@@ -373,8 +376,11 @@ export default function PayPage() {
           </div>
         ) : (
           <div className="min-h-[78vh] bg-card rounded-3xl p-8 shadow-lg text-center space-y-8 flex flex-col justify-center">
-            <div className="w-24 h-24 bg-[#10B981] rounded-full flex items-center justify-center mx-auto">
-              <Check className="w-12 h-12 text-white" />
+            <div className="flex flex-col items-center gap-5">
+              <PayMeLogo heightPx={88} className="drop-shadow-md" priority />
+              <div className="w-24 h-24 bg-[#10B981] rounded-full flex items-center justify-center shadow-lg shadow-emerald-500/25">
+                <Check className="w-12 h-12 text-white" />
+              </div>
             </div>
             <div className="space-y-2">
               <h2 className="text-3xl font-bold">Paid</h2>

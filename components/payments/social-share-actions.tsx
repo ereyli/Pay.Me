@@ -9,7 +9,7 @@ type SocialShareActionsProps = {
   title?: string;
 };
 
-export function SocialShareActions({ url, text, title = "pay.me" }: SocialShareActionsProps) {
+export function SocialShareActions({ url, text, title = "Pay.Me" }: SocialShareActionsProps) {
   const encodedUrl = encodeURIComponent(url);
   const encodedText = encodeURIComponent(text);
 
