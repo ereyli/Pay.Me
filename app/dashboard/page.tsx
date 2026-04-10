@@ -7,6 +7,8 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 import Link from "next/link";
 import { toast } from "sonner";
 import { UsdcCoin } from "@/components/brand/usdc-coin";
+import { PayMeLogo } from "@/components/brand/payme-logo";
+import { GiftLogo } from "@/components/brand/gift-logo";
 import { getStablecoinByAddress } from "@/lib/chain";
 import { AppLayout } from "@/components/layout/app-layout";
 import { AmountDisplay } from "@/components/payments/amount-display";
@@ -121,20 +123,30 @@ export default function DashboardPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 min-h-[30vh]">
             <Link
               href="/create"
-              className="cta-primary text-white rounded-2xl p-5 min-h-[112px] flex flex-col justify-between"
+              className="cta-primary text-white rounded-2xl p-5 min-h-[168px] flex flex-col gap-2 sm:min-h-[180px]"
             >
-              <span className="text-sm/5 text-white/90">Request money</span>
-              <span className="inline-flex items-center gap-1.5 text-base font-semibold">
+              <span className="text-sm/5 text-white/90 shrink-0">Request money</span>
+              <div className="flex-1 flex items-center justify-center min-h-[88px] py-1">
+                <div className="rounded-2xl bg-white/15 p-3 ring-1 ring-white/25 shadow-inner">
+                  <PayMeLogo heightPx={72} className="drop-shadow-md" priority />
+                </div>
+              </div>
+              <span className="inline-flex items-center gap-1.5 text-base font-semibold shrink-0">
                 Create link
                 <ArrowRight className="w-4 h-4" />
               </span>
             </Link>
             <Link
               href="/gifts/create"
-              className="rounded-2xl p-5 min-h-[112px] border border-border bg-card hover:bg-muted/30 transition-colors flex flex-col justify-between"
+              className="cta-primary text-white rounded-2xl p-5 min-h-[168px] flex flex-col gap-2 sm:min-h-[180px]"
             >
-              <span className="text-sm/5 text-muted-foreground">Send gift</span>
-              <span className="inline-flex items-center gap-1.5 text-base font-semibold">
+              <span className="text-sm/5 text-white/90 shrink-0">Send gift</span>
+              <div className="flex-1 flex items-center justify-center min-h-[88px] py-1">
+                <div className="rounded-2xl bg-white/15 p-3 ring-1 ring-white/25 shadow-inner">
+                  <GiftLogo heightPx={72} className="drop-shadow-md" priority />
+                </div>
+              </div>
+              <span className="inline-flex items-center gap-1.5 text-base font-semibold shrink-0">
                 Create gift link
                 <Gift className="w-4 h-4" />
               </span>
