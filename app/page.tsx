@@ -41,18 +41,18 @@ export default function LandingPage() {
           </p>
 
           <Link
-            href="/create"
+            href="/dashboard"
             className="inline-flex items-center gap-2 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold px-8 py-4 rounded-2xl text-lg transition-all active:scale-95 shadow-lg shadow-primary/25"
           >
-            Create Payment Link
+            Open app home
             <ArrowRight className="w-5 h-5" />
           </Link>
 
           <Link
-            href="/dashboard"
+            href="/create"
             className="mt-4 text-sm text-muted-foreground hover:text-primary transition-colors"
           >
-            Go to dashboard →
+            Create payment link →
           </Link>
 
           {/* Features */}
