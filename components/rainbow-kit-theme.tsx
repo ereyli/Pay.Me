@@ -5,14 +5,14 @@ import { useTheme } from "next-themes";
 import { RainbowKitProvider, darkTheme, lightTheme } from "@rainbow-me/rainbowkit";
 
 const light = lightTheme({
-  accentColor: "#2775CA",
+  accentColor: "#0060E8",
   accentColorForeground: "white",
   borderRadius: "large",
   fontStack: "system",
 });
 
 const dark = darkTheme({
-  accentColor: "#3b82f6",
+  accentColor: "#2F79FF",
   accentColorForeground: "white",
   borderRadius: "large",
   fontStack: "system",

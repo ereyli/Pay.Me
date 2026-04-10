@@ -1,9 +1,9 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { PayMeLogo } from "@/components/brand/payme-logo";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { cn } from "@/lib/utils";
 import { mainNavigation } from "@/lib/nav-config";
@@ -16,7 +16,14 @@ export function TopNav() {
       <div className="max-w-6xl mx-auto px-4 lg:px-6">
         <div className="flex items-center justify-between gap-3 h-14 lg:h-16">
           <Link href="/dashboard" className="flex items-center gap-2 shrink-0">
-            <PayMeLogo heightPx={28} />
+            <Image
+              src="/header-payme-logo.png"
+              alt="Pay.Me"
+              width={108}
+              height={72}
+              className="h-9 w-auto object-contain"
+              priority
+            />
             <span className="text-lg font-semibold tracking-tight">Pay.Me</span>
           </Link>
 

@@ -6,6 +6,7 @@ const siteUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
+  applicationName: "Pay.Me",
   title: {
     default: "Pay.Me",
     template: "%s · Pay.Me",

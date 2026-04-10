@@ -11,7 +11,7 @@ export default function LandingPage() {
       {/* Header */}
       <header className="px-6 py-4 flex items-center justify-between max-w-6xl mx-auto w-full">
         <div className="flex items-center gap-2">
-          <PayMeLogo heightPx={36} priority className="drop-shadow-sm" />
+          <PayMeLogo heightPx={36} priority />
           <span className="text-xl font-semibold">Pay.Me</span>
         </div>
         <div className="flex items-center gap-3">

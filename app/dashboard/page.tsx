@@ -5,9 +5,9 @@ import { Link2, CheckCircle2, ArrowRight, Gift, Copy, Check } from "lucide-react
 import { useAccount } from "wagmi";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import Link from "next/link";
+import Image from "next/image";
 import { toast } from "sonner";
 import { UsdcCoin } from "@/components/brand/usdc-coin";
-import { PayMeLogo } from "@/components/brand/payme-logo";
 import { GiftLogo } from "@/components/brand/gift-logo";
 import { getStablecoinByAddress } from "@/lib/chain";
 import { AppLayout } from "@/components/layout/app-layout";
@@ -128,7 +128,14 @@ export default function DashboardPage() {
               <span className="text-sm/5 text-white/90 shrink-0">Request money</span>
               <div className="flex-1 flex items-center justify-center min-h-[88px] py-1">
                 <div className="rounded-2xl bg-white/15 p-3 ring-1 ring-white/25 shadow-inner">
-                  <PayMeLogo heightPx={72} className="drop-shadow-md" priority />
+                  <Image
+                    src="/payme-logo.jpg"
+                    alt="Pay.Me request visual"
+                    width={280}
+                    height={154}
+                    className="h-[72px] w-auto rounded-md object-contain"
+                    priority
+                  />
                 </div>
               </div>
               <span className="inline-flex items-center gap-1.5 text-base font-semibold shrink-0">
@@ -143,7 +150,9 @@ export default function DashboardPage() {
               <span className="text-sm/5 text-white/90 shrink-0">Send gift</span>
               <div className="flex-1 flex items-center justify-center min-h-[88px] py-1">
                 <div className="rounded-2xl bg-white/15 p-3 ring-1 ring-white/25 shadow-inner">
-                  <GiftLogo heightPx={72} className="drop-shadow-md" priority />
+                  <div className="rounded-xl bg-white p-2">
+                    <GiftLogo heightPx={56} className="drop-shadow-md" priority />
+                  </div>
                 </div>
               </div>
               <span className="inline-flex items-center gap-1.5 text-base font-semibold shrink-0">
