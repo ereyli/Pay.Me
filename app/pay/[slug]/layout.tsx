@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { createServerSupabase } from "@/lib/supabase";
+import { absoluteUrl } from "@/lib/site-url";
 
-const OG_PAYMENT = "/og-payment.png";
+const OG_PAYMENT_PATH = "/og-payment.png";
 
 export async function generateMetadata({
   params,
@@ -35,20 +36,27 @@ export async function generateMetadata({
   }
 
   const ogTitle = `${title} · Pay.Me`;
+  const ogPayment = absoluteUrl(OG_PAYMENT_PATH);
+  const pageUrl = absoluteUrl(`/pay/${encodeURIComponent(slug)}`);
 
   return {
     title,
     description,
+    alternates: {
+      canonical: `/pay/${encodeURIComponent(slug)}`,
+    },
     openGraph: {
       title: ogTitle,
       description,
       type: "website",
+      url: pageUrl,
       images: [
         {
-          url: OG_PAYMENT,
+          url: ogPayment,
           width: 1200,
           height: 630,
           alt: "Pay.Me payment",
+          type: "image/png",
         },
       ],
     },
@@ -56,7 +64,7 @@ export async function generateMetadata({
       card: "summary_large_image",
       title: ogTitle,
       description,
-      images: [OG_PAYMENT],
+      images: [{ url: ogPayment, alt: "Pay.Me payment" }],
     },
   };
 }
