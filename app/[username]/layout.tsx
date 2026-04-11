@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
+import { OG_SITE } from "@/lib/og-assets";
 import { createServerSupabase } from "@/lib/supabase";
 import { absoluteUrl } from "@/lib/site-url";
-
-const FALLBACK_OG_PATH = "/payme-logo.jpg";
+import { absoluteUrlForMetadata } from "@/lib/site-url-metadata";
 
 export async function generateMetadata({
   params,
@@ -14,8 +14,8 @@ export async function generateMetadata({
 
   let title = `@${safe}`;
   let description = `Pay.Me profile · @${safe}`;
-  let ogImageUrl = absoluteUrl(FALLBACK_OG_PATH);
-  let useLogoDimensions = true;
+  let ogImageUrl = await absoluteUrlForMetadata(OG_SITE.path);
+  let useBrandedOgDimensions = true;
 
   try {
     const supabase = createServerSupabase();
@@ -31,7 +31,7 @@ export async function generateMetadata({
       if (data.bio?.trim()) description = data.bio.trim().slice(0, 200);
       const av = data.avatar_url?.trim();
       if (av) {
-        useLogoDimensions = false;
+        useBrandedOgDimensions = false;
         ogImageUrl = av.startsWith("http")
           ? av
           : absoluteUrl(av.startsWith("/") ? av : `/${av}`);
@@ -44,14 +44,14 @@ export async function generateMetadata({
   const ogTitle = `${title} · Pay.Me`;
   const pagePath = `/${encodeURIComponent(username)}`;
 
-  const ogImages = useLogoDimensions
+  const ogImages = useBrandedOgDimensions
     ? [
         {
           url: ogImageUrl,
-          width: 1184,
-          height: 864,
+          width: OG_SITE.width,
+          height: OG_SITE.height,
           alt: "Pay.Me",
-          type: "image/jpeg" as const,
+          type: "image/png" as const,
         },
       ]
     : [{ url: ogImageUrl, alt: title }];
@@ -66,14 +66,14 @@ export async function generateMetadata({
       title: ogTitle,
       description,
       type: "website",
-      url: absoluteUrl(pagePath),
+      url: await absoluteUrlForMetadata(pagePath),
       images: ogImages,
     },
     twitter: {
       card: "summary_large_image",
       title: ogTitle,
       description,
-      images: ogImages,
+      images: [ogImageUrl],
     },
   };
 }

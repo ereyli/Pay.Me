@@ -1,7 +1,7 @@
 /**
- * Canonical site origin for metadata (Open Graph, Twitter cards, canonical URLs).
- * Set NEXT_PUBLIC_APP_URL to your public https URL in production (e.g. https://usepay.me).
- * On Vercel, VERCEL_URL is used as a fallback when the env var is missing.
+ * Client-side / non-request code: share links, wagmi, etc.
+ * Prefer setting NEXT_PUBLIC_APP_URL in production.
+ * For OG/Twitter absolute URLs from server layouts, use `@/lib/site-url-metadata`.
  */
 export function getSiteUrl(): string {
   const fromEnv = process.env.NEXT_PUBLIC_APP_URL?.trim().replace(/\/$/, "");
