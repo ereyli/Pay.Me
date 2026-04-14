@@ -1,5 +1,5 @@
 import type { LucideIcon } from "lucide-react";
-import { Home, Plus, Gift, Clock, User } from "lucide-react";
+import { Home, Plus, Gift, Clock, User, Bot } from "lucide-react";
 
 /** Primary app navigation — shared by bottom (mobile) and top (desktop) bars. */
 export const mainNavigation: {
@@ -43,5 +43,11 @@ export const mainNavigation: {
     label: "Profile",
     icon: User,
     isActive: (p) => p === "/profile" || p.startsWith("/profile/"),
+  },
+  {
+    href: "/agents",
+    label: "Agent",
+    icon: Bot,
+    isActive: (p) => p === "/agents" || p.startsWith("/agents/"),
   },
 ];

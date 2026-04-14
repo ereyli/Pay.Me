@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Copy, Check, LogOut, ExternalLink, Save, Pencil } from "lucide-react";
+import { Copy, Check, LogOut, ExternalLink, Save, Pencil, ShieldCheck, Star } from "lucide-react";
 import { useAccount, useDisconnect, useBalance } from "wagmi";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { toast } from "sonner";
@@ -27,6 +27,13 @@ export default function ProfilePage() {
   const [saving, setSaving] = useState(false);
   const [hasSavedProfile, setHasSavedProfile] = useState(false);
   const [isEditingProfile, setIsEditingProfile] = useState(false);
+  const [trustSummary, setTrustSummary] = useState<{
+    averageScore: number | null;
+    reputationCount: number;
+    validationCount: number;
+    validationTags: string[];
+    isTrusted: boolean;
+  } | null>(null);
 
   const { data: usdcBalance } = useBalance({
     address,
@@ -74,6 +81,13 @@ export default function ProfilePage() {
     loadProfile(address).catch(() => {});
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [address]);
+
+  useEffect(() => {
+    fetch("/api/trust/summary")
+      .then((r) => r.json())
+      .then((data) => setTrustSummary(data))
+      .catch(() => {});
+  }, []);
 
   const handleSaveProfile = async () => {
     if (!address) return;
@@ -162,6 +176,18 @@ export default function ProfilePage() {
             </div>
             <h2 className="text-2xl font-semibold mb-1">{shortenAddress(address!)}</h2>
             <div className="text-primary font-medium text-sm">Arc Testnet</div>
+            {trustSummary && (
+              <div className="mt-4 inline-flex flex-wrap items-center justify-center gap-2">
+                <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1.5 text-xs font-medium text-primary">
+                  <ShieldCheck className="w-3.5 h-3.5" />
+                  Verified by Pay.Me Agent
+                </div>
+                <div className="inline-flex items-center gap-2 rounded-full border border-border px-3 py-1.5 text-xs font-medium">
+                  <Star className="w-3.5 h-3.5 text-primary" />
+                  Agent reputation: {trustSummary.averageScore ?? "—"}
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Stablecoin balances (ERC-20 interface) */}

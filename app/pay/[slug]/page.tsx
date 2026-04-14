@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { Check, Loader2, ExternalLink, AlertCircle, Clock } from "lucide-react";
+import { Check, Loader2, ExternalLink, AlertCircle, Clock, ShieldCheck, Star } from "lucide-react";
 import {
   useAccount,
   useWriteContract,
@@ -40,6 +40,13 @@ export default function PayPage() {
   const [txHash, setTxHash] = useState<`0x${string}` | undefined>();
   const [verifying, setVerifying] = useState(false);
   const [payerMessage, setPayerMessage] = useState("");
+  const [trustSummary, setTrustSummary] = useState<{
+    averageScore: number | null;
+    reputationCount: number;
+    validationCount: number;
+    validationTags: string[];
+    isTrusted: boolean;
+  } | null>(null);
 
   const isWrongNetwork = isConnected && chainId !== arcTestnet.id;
 
@@ -74,6 +81,13 @@ export default function PayPage() {
         setLoading(false);
       });
   }, [slug]);
+
+  useEffect(() => {
+    fetch("/api/trust/summary")
+      .then((r) => r.json())
+      .then((data) => setTrustSummary(data))
+      .catch(() => {});
+  }, []);
 
   // After tx confirmed, verify on backend
   useEffect(() => {
@@ -270,6 +284,35 @@ export default function PayPage() {
                 </div>
               )}
             </div>
+
+            {trustSummary && (
+              <div className="rounded-2xl border border-primary/15 bg-primary/5 p-4 space-y-2">
+                <div className="inline-flex items-center gap-2 text-sm font-medium text-primary">
+                  <ShieldCheck className="w-4 h-4" />
+                  Verified by Pay.Me Agent
+                </div>
+                <div className="flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
+                  <span className="inline-flex items-center gap-1">
+                    <Star className="w-3.5 h-3.5 text-primary" />
+                    Agent reputation: {trustSummary.averageScore ?? "—"}
+                  </span>
+                  <span>{trustSummary.reputationCount} reputation events</span>
+                  <span>{trustSummary.validationCount} validations</span>
+                </div>
+                {trustSummary.validationTags.length > 0 && (
+                  <div className="flex flex-wrap gap-2 pt-1">
+                    {trustSummary.validationTags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="rounded-full border border-border bg-card px-2.5 py-1 text-[11px] font-medium"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
 
             <div className="space-y-2">
               <label className="text-sm font-medium">Message (optional)</label>

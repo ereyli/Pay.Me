@@ -14,6 +14,7 @@ A production-quality payment link app built on Arc Testnet using direct USDC tra
 - **Dashboard** — view all links, filter by status (paid/pending/expired)
 - **Activity log** — all confirmed payments
 - **Wrong network detection** — one-click switch to Arc Testnet
+- **ERC-8004-ready platform agent** — optional onchain identity layer for Pay.Me trust flows
 
 ## Tech Stack
 
@@ -91,6 +92,14 @@ SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
 NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID=your-walletconnect-id
 ```
 
+Optional ERC-8004 platform agent setup:
+
+```bash
+PAYME_AGENT_OWNER_PRIVATE_KEY=0x...
+PAYME_AGENT_VALIDATOR_PRIVATE_KEY=0x...
+PAYME_AGENT_ADMIN_SECRET=change-me
+```
+
 Get a WalletConnect Project ID from [cloud.walletconnect.com](https://cloud.walletconnect.com) (free).
 
 ### 4. Run development server
@@ -100,6 +109,31 @@ npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000)
+
+## ERC-8004 Platform Agent
+
+Pay.Me now includes a minimal ERC-8004 integration scaffold for a platform-owned `Pay.Me Trust Agent`.
+
+What it does today:
+
+- exposes live agent metadata at `/api/agents/platform/metadata`
+- stores the registered agent in Supabase (`erc8004_agents`)
+- provides a read-only app view at `/agents`
+- supports one-time onchain registration through `POST /api/agents/platform`
+
+How to register it:
+
+1. Run the new SQL migration in `supabase/migrations/erc8004_agents.sql`
+2. Set the three `PAYME_AGENT_*` env vars in `.env.local`
+3. Start the app
+4. Call the registration endpoint once with your admin secret:
+
+```bash
+curl -X POST http://localhost:3000/api/agents/platform \
+  -H "x-payme-agent-secret: change-me"
+```
+
+This mints the ERC-8004 identity on Arc Testnet using the owner wallet, then stores the resulting token id and tx hash in Supabase.
 
 ## How It Works
 

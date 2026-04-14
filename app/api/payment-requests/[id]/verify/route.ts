@@ -4,6 +4,8 @@ import { createServerSupabase } from "@/lib/supabase";
 import { verifyPaymentSchema } from "@/types/validation";
 import { arcTestnet, getStablecoinByAddress } from "@/lib/chain";
 import { getPayRouterAddress, PAY_ROUTER_ABI } from "@/lib/pay-router";
+import { recordPaymentSuccessReputation } from "@/lib/agent-reputation";
+import { recordPaymentValidation } from "@/lib/agent-validation";
 import { parseUSDC } from "@/lib/token";
 
 const publicClient = createPublicClient({
@@ -19,7 +21,7 @@ export async function POST(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const { id: _idParam } = await params;
+  await params;
 
   try {
     const body = await req.json();
@@ -199,7 +201,33 @@ export async function POST(
       console.error("Update status error:", updateError);
     }
 
-    return NextResponse.json({ success: true });
+    let reputation;
+    try {
+      reputation = await recordPaymentSuccessReputation({
+        paymentRequestId,
+        paymentTxHash: txHash,
+        payerWallet: payerWallet.toLowerCase(),
+        recipientWallet: request.recipient_wallet.toLowerCase(),
+        amountUsdc: request.amount_usdc,
+        tokenAddress: tokenAddrLower,
+      });
+    } catch (error) {
+      console.error("Reputation recording error:", error);
+      reputation = { skipped: true as const, reason: "reputation-write-failed" };
+    }
+
+    let validation;
+    try {
+      validation = await recordPaymentValidation({
+        paymentRequestId,
+        paymentTxHash: txHash,
+      });
+    } catch (error) {
+      console.error("Validation recording error:", error);
+      validation = { skipped: true as const, reason: "validation-write-failed" };
+    }
+
+    return NextResponse.json({ success: true, reputation, validation });
   } catch (err) {
     console.error("Verify payment error:", err);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
