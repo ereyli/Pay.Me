@@ -78,6 +78,8 @@ export default function AgentsPage() {
       .finally(() => setLoading(false));
   }, []);
 
+  const configuredData = !loading && data?.configured ? data : null;
+
   return (
     <AppLayout>
       <div className="max-w-3xl mx-auto px-4 py-8 space-y-6">
@@ -150,22 +152,24 @@ export default function AgentsPage() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                <div className="rounded-xl border border-border/60 p-4 space-y-1">
-                  <div className="text-xs uppercase tracking-wider text-muted-foreground">Avg Reputation</div>
-                  <div className="text-2xl font-semibold">
-                    {data.stats.averageScore ?? "—"}
+              {configuredData && (
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                  <div className="rounded-xl border border-border/60 p-4 space-y-1">
+                    <div className="text-xs uppercase tracking-wider text-muted-foreground">Avg Reputation</div>
+                    <div className="text-2xl font-semibold">
+                      {configuredData.stats.averageScore ?? "—"}
+                    </div>
+                  </div>
+                  <div className="rounded-xl border border-border/60 p-4 space-y-1">
+                    <div className="text-xs uppercase tracking-wider text-muted-foreground">Reputation Events</div>
+                    <div className="text-2xl font-semibold">{configuredData.stats.reputationCount}</div>
+                  </div>
+                  <div className="rounded-xl border border-border/60 p-4 space-y-1">
+                    <div className="text-xs uppercase tracking-wider text-muted-foreground">Validation Events</div>
+                    <div className="text-2xl font-semibold">{configuredData.stats.validationCount}</div>
                   </div>
                 </div>
-                <div className="rounded-xl border border-border/60 p-4 space-y-1">
-                  <div className="text-xs uppercase tracking-wider text-muted-foreground">Reputation Events</div>
-                  <div className="text-2xl font-semibold">{data.stats.reputationCount}</div>
-                </div>
-                <div className="rounded-xl border border-border/60 p-4 space-y-1">
-                  <div className="text-xs uppercase tracking-wider text-muted-foreground">Validation Events</div>
-                  <div className="text-2xl font-semibold">{data.stats.validationCount}</div>
-                </div>
-              </div>
+              )}
 
               {data.configured ? (
                 <div className="space-y-3">
@@ -213,21 +217,21 @@ export default function AgentsPage() {
           )}
         </div>
 
-        {!loading && data?.configured && (
+        {configuredData && (
           <div className="rounded-2xl border border-border/60 bg-card p-5 space-y-4">
             <div className="flex items-center gap-2">
               <Star className="w-4 h-4 text-primary" />
               <h2 className="text-sm font-semibold">Recent Reputation Events</h2>
             </div>
 
-            {data.reputationEvents.length === 0 ? (
+            {configuredData.reputationEvents.length === 0 ? (
               <div className="rounded-xl border border-dashed border-border p-4 text-sm text-muted-foreground">
                 No reputation events yet. Once a payment is verified, the platform validator can write an
                 ERC-8004 feedback event and it will show up here.
               </div>
             ) : (
               <div className="space-y-3">
-                {data.reputationEvents.map((event) => (
+                {configuredData.reputationEvents.map((event) => (
                   <div
                     key={event.id}
                     className="rounded-xl border border-border/60 p-4 space-y-3"
@@ -280,20 +284,20 @@ export default function AgentsPage() {
           </div>
         )}
 
-        {!loading && data?.configured && (
+        {configuredData && (
           <div className="rounded-2xl border border-border/60 bg-card p-5 space-y-4">
             <div className="flex items-center gap-2">
               <ShieldCheck className="w-4 h-4 text-primary" />
               <h2 className="text-sm font-semibold">Recent Validations</h2>
             </div>
 
-            {data.validationEvents.length === 0 ? (
+            {configuredData.validationEvents.length === 0 ? (
               <div className="rounded-xl border border-dashed border-border p-4 text-sm text-muted-foreground">
                 No validation events yet. Trusted and reviewed tags will appear here after verified payments.
               </div>
             ) : (
               <div className="space-y-3">
-                {data.validationEvents.map((event) => (
+                {configuredData.validationEvents.map((event) => (
                   <div key={event.id} className="rounded-xl border border-border/60 p-4 space-y-3">
                     <div className="flex items-center justify-between gap-3">
                       <div>
